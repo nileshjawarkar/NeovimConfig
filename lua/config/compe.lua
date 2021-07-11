@@ -32,3 +32,10 @@ require('compe').setup {
 		emoji = false;
 	};
 }
+
+local util = require('util')
+local opts = { noremap = true, silent = true, expr = true }
+ util.map_gkey({
+ 	{ 'i', '<CR>',	"compe#confirm(\'<CR>\')", opts }
+ })
+

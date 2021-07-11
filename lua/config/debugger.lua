@@ -2,6 +2,7 @@ local M = {}
 
 local function init_dap()
 	local util = require('util')
+	local config = require('install_config')
 	local dap = require('dap')
 
 	util.set_sign('DapBreakpoint', {text='*', texthl='', linehl='', numhl=''})
@@ -33,7 +34,7 @@ local function init_dap()
 		{ 'n', "<Leader>dt", "<Cmd>DapToggleTray<CR>", kop}, -- Toggle repl
 	})
 
-	local py_path = util.get_rt_path('python')
+	local py_path = config.get_rt_path('python')
 	dap.adapters.python = {
 	  type = 'executable',
 	  command = py_path,

@@ -36,7 +36,7 @@ util.set_gop({
     -- open completion menu even for single item
 	-- do not auto insert items from completion menu
 	-- @warning - preview is removed. when it's on, default lsp opens a vertical tab
-	completeopt = 'menuone,noinsert',
+	completeopt = 'menuone,noinsert,noselect',
 
 	-- stop showing the current mode
 	showmode = false,

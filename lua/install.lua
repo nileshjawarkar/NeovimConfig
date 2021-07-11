@@ -40,22 +40,20 @@ return require('packer').startup(function(use)
 			require('config.lsp')
 		end
 	}
-	use { 'mfussenegger/nvim-jdtls'}
 	use { 'hrsh7th/nvim-compe' }
 	use { 'mfussenegger/nvim-dap'}
 	use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
 	use { 'vimwiki/vimwiki' }
 
 
---	require('util').exec_cmd({[[
---		augroup lsp
---		au!
---		au FileType java lua require('jdtls').start_or_attach({cmd = {'start_jdtls.sh'}})
---		augroup end
---	]]})
-
 	local util = require('util')
-	local jdtlspath = util.get_ls_path('jdtls') .. '/start_jdtls.sh'
+	local config = require('install_config')
+	local jdtlspath = config.get_lsp_path('jdtls') .. '/start_jdtls.sh'
+
+	use { 'mfussenegger/nvim-jdtls',
+		ft = { 'java' },
+	}
+
 	util.auto_attach({
 		"java lua require('jdtls').start_or_attach({cmd = {'" .. jdtlspath .. "'}})"
 	}, 'jdtls_lsp' )

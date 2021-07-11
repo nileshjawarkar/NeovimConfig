@@ -26,6 +26,29 @@ local function getCommand()
     return Command
 end
 
+local function isModuleAvailable(name)
+  if package.loaded[name] then
+    return true
+  else
+    for _, searcher in ipairs(package.searchers or package.loaders) do
+      local loader = searcher(name)
+      if type(loader) == 'function' then
+        package.preload[name] = loader
+        return true
+      end
+    end
+    return false
+  end
+end
+
+local function loadModule(moduleName)
+	if isModuleAvailable(moduleName) then
+		return require(moduleName)
+	end
+	return nil
+end
+
+
 local function get_cwd()
 	return vim.fn.getcwd()
 end
@@ -44,69 +67,6 @@ local function get_userhome()
 end
 
 
-local inst_path = {}
-local lsp_options = {}
-local function init_config()
-	local home = get_userhome()
-	lsp_options.jdtls = {}
-	lsp_options.jdtls.jar = home .. "/.local/lsp/jdtls/plugins/org.eclipse.equinox.launcher_*.jar"
-	lsp_options.jdtls.config = home .. "/.local/lsp/jdtls/config_linux"
-	lsp_options.jdtls.workspace = get_cwd()
-
-	inst_path.python = "/usr/bin/python3"
-	inst_path.java = home .. "/.local/jdk11/bin/java"
-end
-
-init_config()
-
-local function get_rt_path( rt )
-	return inst_path[ rt ]
-end
-
-local function get_lsp_option( op )
-	return lsp_options[ op ]
-end
-
-local function get_ls_path( rt )
-	local home = get_userhome()
-	if rt == 'lua' then
-		return home .. '/.local/lsp/lua-language-server'
-	end
-
-	if rt == 'clangd' then
-		return home .. '/.local/lsp/clangd'
-	end
-
-	if rt == 'jdtls' then
-		return home .. '/.local/lsp'
-	end
-
-	local yarn_bin = home .. '/.config/nvim/yarn_lsp'
-	if rt == 'pyright' then
-		return yarn_bin .. '/node_modules/pyright'
-	end
-
-	if rt == 'typescript-language-server' then
-		return yarn_bin .. '/node_modules/typescript-language-server'
-	end
-
-	if rt == 'vscode-langservers-extracted' then
-		return yarn_bin .. '/node_modules/vscode-langservers-extracted'
-	end
-
-	if rt == 'yaml-language-server' then
-		return yarn_bin .. '/node_modules/yaml-language-server'
-	end
-
-	if rt == 'bash-language-server' then
-		return yarn_bin .. '/node_modules/bash-language-server'
-	end
-
-	if rt == 'docker-language-server' then
-		return yarn_bin .. '/node_modules/dockerfile-language-server-nodejs'
-	end
-	return ''
-end
 
 local function get_os()
 	local os = ''
@@ -149,13 +109,11 @@ local util = {
 
 	-- Util function
 	set_sign = set_sign,
-	get_rt_path = get_rt_path,
-	get_ls_path = get_ls_path,
 	get_userhome = get_userhome,
 	get_os = get_os,
 	get_cwd = get_cwd,
 	get_env = get_env,
-	get_lsp_option = get_lsp_option
+	loadModule = loadModule
 }
 
 return util

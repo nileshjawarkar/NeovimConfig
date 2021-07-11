@@ -1,4 +1,5 @@
 local util = require('util')
+local config = require('install_config')
 
 local on_attach_callback = function(_, bufnr)
     local opts = { noremap = true }
@@ -28,20 +29,20 @@ end
 
 
 local lspconfig = require('lspconfig')
-local rootPath = require('lspconfig/util').root_pattern( util.get_cwd() )
+-- local rootPath = require('lspconfig/util').root_pattern( util.get_cwd() )
 
-local pyrightpath = util.get_ls_path('pyright')
+local pyrightpath = config.get_lsp_path('pyright')
 lspconfig['pyright'].setup ({
 	on_attach = on_attach_callback,
 	cmd = { 'node', pyrightpath .. '/lib/cli.js', '--stdio' },
     filetypes = {
 		"python"
     },
-	root_dir = rootPath
+--	root_dir = rootPath
 })
 
 
-local tserverpath = util.get_ls_path('typescript-language-server')
+local tserverpath = config.get_lsp_path('typescript-language-server')
 lspconfig['tsserver'].setup({
 	on_attach = on_attach_callback,
 	cmd = { 'node', tserverpath .. '/lib/cli.js', '--stdio' },
@@ -49,45 +50,45 @@ lspconfig['tsserver'].setup({
         "javascript", "javascriptreact", "javascript.jsx", "typescript",
         "typescriptreact", "typescript.tsx"
     },
-	root_dir = rootPath
+--	root_dir = rootPath
 })
 
-local yamlpath = util.get_ls_path('yaml-language-server')
+local yamlpath = config.get_lsp_path('yaml-language-server')
 lspconfig['yamlls'].setup({
 	on_attach = on_attach_callback,
 	cmd = { 'node', yamlpath .. '/out/server/src/server.js', '--stdio' },
     filetypes = { "yaml" },
-	root_dir = rootPath
+--	root_dir = rootPath
 })
 
 
-local bashpath = util.get_ls_path('bash-language-server')
+local bashpath = config.get_lsp_path('bash-language-server')
 lspconfig['bashls'].setup({
 	on_attach = on_attach_callback,
 	cmd = { 'node', bashpath .. '/bin/main.js', 'start' },
     filetypes = { "sh", "zsh" },
-	root_dir = rootPath
+--	root_dir = rootPath
 })
 
-local dockerpath = util.get_ls_path('docker-language-server')
+local dockerpath = config.get_lsp_path('docker-language-server')
 lspconfig['dockerls'].setup({
 	on_attach = on_attach_callback,
 	cmd = { 'node', dockerpath .. '/lib/server.js', '--stdio' },
     filetypes = { "Dockerfile", "dockerfile" },
-	root_dir = rootPath
+--	root_dir = rootPath
 })
 
-local clangdpath = util.get_ls_path('clangd')
+local clangdpath = config.get_lsp_path('clangd')
 lspconfig['clangd'].setup ({
 	on_attach = on_attach_callback,
 	cmd = { clangdpath .. "/bin/clangd", "--background-index" },
     filetypes = { "c", "cpp", "objc", "objcpp" },
-	root_dir = rootPath
+--	root_dir = rootPath
 })
 --[[
 local jdtls_options = util.get_lsp_option('jdtls')
 local jdtls_cmd = {
-	util.get_rt_path('java'),
+	config.get_rt_path('java'),
 	"-Declipse.application=org.eclipse.jdt.ls.core.id1",
 	"-Dosgi.bundles.defaultStartLevel=4",
 	"-Declipse.product=org.eclipse.jdt.ls.core.product",
