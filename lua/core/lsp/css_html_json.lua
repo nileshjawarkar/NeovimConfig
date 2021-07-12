@@ -1,28 +1,31 @@
 local function setup( on_attach_callback )
-	local util = require('util')
+	local config = require('core.config')
 	local lspconfig = require('lspconfig')
+
+	local pkgPath = config.get_lsp_path('html')
+	if pkgPath == nil then
+		return
+	end
 
 	local capabilities = vim.lsp.protocol.make_client_capabilities()
 	capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-	local vscode_ls = util.get_ls_path('vscode-langservers-extracted')
-
     lspconfig['cssls'].setup({
 		on_attach = on_attach_callback,
 		capabilities = capabilities,
-		cmd = { 'node', vscode_ls .. '/dist/css-language-server/node/cssServerMain.js', '--stdio' }
+		cmd = { 'node', pkgPath .. '/dist/css-language-server/node/cssServerMain.js', '--stdio' }
 	})
 
     lspconfig['html'].setup({
 		on_attach = on_attach_callback,
 		capabilities = capabilities,
-		cmd = { 'node', vscode_ls .. '/dist/html-language-server/node/htmlServerMain.js', '--stdio' }
+		cmd = { 'node', pkgPath .. '/dist/html-language-server/node/htmlServerMain.js', '--stdio' }
 	})
 
     lspconfig['jsonls'].setup({
 		on_attach = on_attach_callback,
 		capabilities = capabilities,
-		cmd = { 'node', vscode_ls .. '/dist/json-language-server/node/jsonServerMain.js' , "--stdio"},
+		cmd = { 'node', pkgPath .. '/dist/json-language-server/node/jsonServerMain.js' , "--stdio"},
 		commands = {
 			Format = {
 				function()

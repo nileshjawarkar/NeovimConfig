@@ -2,7 +2,7 @@ local M = {}
 
 local function init_dap()
 	local util = require('util')
-	local config = require('install_config')
+	local config = require('core.config')
 	local dap = require('dap')
 
 	util.set_sign('DapBreakpoint', {text='*', texthl='', linehl='', numhl=''})

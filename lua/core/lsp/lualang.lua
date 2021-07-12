@@ -1,10 +1,15 @@
 local function setup( on_attach_callback )
 	-- packages
 	local util = require('util')
+	local config = require('core.config')
 	local lspconfig = require('lspconfig')
 
 	-- variables
-	local root_path = util.get_ls_path('lua')
+	local root_path = config.get_lsp_path('lua')
+	if root_path == nil then
+		return
+	end
+
 	local system_name = util.get_os()
 	local binary_path = root_path.."/bin/"..system_name.."/lua-language-server"
 

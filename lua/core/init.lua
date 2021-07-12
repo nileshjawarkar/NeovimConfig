@@ -1,12 +1,14 @@
 local util = require('util')
+require('core.config')
+require('defaults')
+util.loadModule('custom')
+require('core.plugins')
 
 -- For theme
 util.exec_cmd({
 	[[
 		if (empty($TMUX))
-		  if (has("nvim"))
-		    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-		  endif
+		  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 		  if (has("termguicolors"))
 		    set termguicolors
 		  endif
@@ -41,9 +43,9 @@ util.map_gkey({
     { 'n', '<Leader>wi', ':VimwikiDiaryIndex<CR>', kop }
 })
 
-require('config.compe')
-require('config.telescope')
+require('core.completion')
+require('core.telescope')
 
-local debugger = require('config.debugger')
+local debugger = require('core.debugger')
 debugger.init_dap()
 

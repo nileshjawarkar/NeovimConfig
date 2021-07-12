@@ -1,5 +1,5 @@
 local util = require('util')
-local config = require('install_config')
+local config = require('core.config')
 
 local on_attach_callback = function(_, bufnr)
     local opts = { noremap = true }
@@ -27,64 +27,74 @@ local on_attach_callback = function(_, bufnr)
 
 end
 
-
 local lspconfig = require('lspconfig')
 -- local rootPath = require('lspconfig/util').root_pattern( util.get_cwd() )
 
-local pyrightpath = config.get_lsp_path('pyright')
-lspconfig['pyright'].setup ({
-	on_attach = on_attach_callback,
-	cmd = { 'node', pyrightpath .. '/lib/cli.js', '--stdio' },
-    filetypes = {
-		"python"
-    },
---	root_dir = rootPath
-})
+local pyrightpath = config.get_lsp_path('python')
+if pyrightpath ~= nil then
+	lspconfig['pyright'].setup ({
+		on_attach = on_attach_callback,
+		cmd = { 'node', pyrightpath .. '/dist/pyright-langserver.js', '--stdio' },
+		filetypes = {
+			"python"
+		},
+	})
+end
 
 
-local tserverpath = config.get_lsp_path('typescript-language-server')
-lspconfig['tsserver'].setup({
-	on_attach = on_attach_callback,
-	cmd = { 'node', tserverpath .. '/lib/cli.js', '--stdio' },
-    filetypes = {
-        "javascript", "javascriptreact", "javascript.jsx", "typescript",
-        "typescriptreact", "typescript.tsx"
-    },
---	root_dir = rootPath
-})
+local tserverpath = config.get_lsp_path('javascript')
+if tserverpath ~= nil then
+	lspconfig['tsserver'].setup({
+		on_attach = on_attach_callback,
+		cmd = { 'node', tserverpath .. '/lib/cli.js', '--stdio' },
+	    filetypes = {
+	        "javascript", "javascriptreact", "javascript.jsx", "typescript",
+	        "typescriptreact", "typescript.tsx"
+	    },
+	--	root_dir = rootPath
+	})
+end
 
-local yamlpath = config.get_lsp_path('yaml-language-server')
-lspconfig['yamlls'].setup({
-	on_attach = on_attach_callback,
-	cmd = { 'node', yamlpath .. '/out/server/src/server.js', '--stdio' },
-    filetypes = { "yaml" },
---	root_dir = rootPath
-})
+local yamlpath = config.get_lsp_path('yaml')
+if yamlpath ~= nil then
+	lspconfig['yamlls'].setup({
+		on_attach = on_attach_callback,
+		cmd = { 'node', yamlpath .. '/out/server/src/server.js', '--stdio' },
+		filetypes = { "yaml" },
+	--	root_dir = rootPath
+	})
+end
 
 
-local bashpath = config.get_lsp_path('bash-language-server')
-lspconfig['bashls'].setup({
-	on_attach = on_attach_callback,
-	cmd = { 'node', bashpath .. '/bin/main.js', 'start' },
-    filetypes = { "sh", "zsh" },
---	root_dir = rootPath
-})
+local bashpath = config.get_lsp_path('sh')
+if bashpath ~= nil then
+	lspconfig['bashls'].setup({
+		on_attach = on_attach_callback,
+		cmd = { 'node', bashpath .. '/bin/main.js', 'start' },
+		filetypes = { "sh", "zsh" },
+	--	root_dir = rootPath
+	})
+end
 
-local dockerpath = config.get_lsp_path('docker-language-server')
-lspconfig['dockerls'].setup({
-	on_attach = on_attach_callback,
-	cmd = { 'node', dockerpath .. '/lib/server.js', '--stdio' },
-    filetypes = { "Dockerfile", "dockerfile" },
---	root_dir = rootPath
-})
+local dockerpath = config.get_lsp_path('docker')
+if dockerpath ~= nil then
+	lspconfig['dockerls'].setup({
+		on_attach = on_attach_callback,
+		cmd = { 'node', dockerpath .. '/lib/server.js', '--stdio' },
+		filetypes = { "Dockerfile", "dockerfile" },
+	--	root_dir = rootPath
+	})
+end
 
-local clangdpath = config.get_lsp_path('clangd')
-lspconfig['clangd'].setup ({
-	on_attach = on_attach_callback,
-	cmd = { clangdpath .. "/bin/clangd", "--background-index" },
-    filetypes = { "c", "cpp", "objc", "objcpp" },
---	root_dir = rootPath
-})
+local clangdpath = config.get_lsp_path('c')
+if clangdpath ~= nil then
+	lspconfig['clangd'].setup ({
+		on_attach = on_attach_callback,
+		cmd = { clangdpath .. "/bin/clangd", "--background-index" },
+		filetypes = { "c", "cpp", "objc", "objcpp" },
+	--	root_dir = rootPath
+	})
+end
 --[[
 local jdtls_options = util.get_lsp_option('jdtls')
 local jdtls_cmd = {
@@ -115,7 +125,7 @@ lspconfig['jdtls'].setup ({
 })
 ]]
 
-require('config.lualang').setup( on_attach_callback )
-require('config.css_html_json').setup( on_attach_callback )
+require('core.lsp.lualang').setup( on_attach_callback )
+require('core.lsp.css_html_json').setup( on_attach_callback )
 
 

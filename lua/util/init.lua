@@ -57,6 +57,14 @@ local function get_env(var)
 	return vim.fn.getenv(var)
 end
 
+local function get_cfgpath()
+	return vim.fn.stdpath("config")
+end
+
+local function get_datapath()
+	return vim.fn.stdpath("data")
+end
+
 local function get_userhome()
 	local userhome = ''
 	if userhome == '' then
@@ -113,6 +121,8 @@ local util = {
 	get_os = get_os,
 	get_cwd = get_cwd,
 	get_env = get_env,
+	get_cfgpath = get_cfgpath,
+	get_datapath = get_datapath,
 	loadModule = loadModule
 }
 

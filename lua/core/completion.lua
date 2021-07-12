@@ -36,6 +36,7 @@ require('compe').setup {
 local util = require('util')
 local opts = { noremap = true, silent = true, expr = true }
  util.map_gkey({
- 	{ 'i', '<CR>',	"compe#confirm(\'<CR>\')", opts }
+ 	{ 'i', '<CR>',	"compe#confirm(\'<CR>\')", opts },
+ 	{ 'i', '<C-Space>',	"compe#complete()", opts }
  })
 
