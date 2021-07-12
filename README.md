@@ -1,13 +1,13 @@
 # Neovim configuration
 
 ## Customization
-* Create new lua module with name "custom" under <vim config directory>/lua directory
+* Create new lua module with name "custom" under \<vim config directory\>/lua directory
 * And copy required files from default module to custom module.
 
 ## Java lsp (jdtls)
 * Download jdtls from "https://download.eclipse.org/jdtls/milestones/?d"
-* Extract it in some directory and create start_jdtls.sh (.bat - in cuase of windows) file in the same directory
-  with the following contents. Please modify path as per your pc.
+* Extract it in some directory and create "start_jdtls.sh" (.bat - in case of windows) file in the same directory
+  with the following contents. Please modify paths as per your pc.
 
 ```bash
 #!/usr/bin/env bash
