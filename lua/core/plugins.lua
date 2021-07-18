@@ -16,7 +16,7 @@ packer.init {
 }
 
 require('util').auto_cmds({
- 	"BufWritePost install.lua PackerCompile"
+ 	"BufWritePost plugins.lua PackerCompile"
 }, 'packerautocompile')
 
 return require('packer').startup(function(use)
@@ -36,7 +36,9 @@ return require('packer').startup(function(use)
 
 	-- debugger configuration
 	use { 'mfussenegger/nvim-dap'}
-	use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
+	use { "rcarriga/nvim-dap-ui",
+		requires = {"mfussenegger/nvim-dap"}
+	}
 
 	-- lsp configuration
 	local config = require('core.config')
@@ -47,21 +49,18 @@ return require('packer').startup(function(use)
 				'c', 'cpp', 'objc', 'objcpp', 'sh', 'zsh'
 			},
 			config = function()
-				require('core.lsp')
+				require('core.lsp').setup()
 			end
 		}
 
+		local util = require('util')
 		local jdtlspath = config.get_lsp_path('java')
 		if jdtlspath ~= nil then
-			use { 'mfussenegger/nvim-jdtls',
-				ft = { 'java' },
-			}
-
+			use { 'mfussenegger/nvim-jdtls'}
 			jdtlspath = jdtlspath .. '/start_jdtls.sh'
-			local util = require('util')
 			util.auto_attach({
 				"java lua require('jdtls').start_or_attach({cmd = {'" .. jdtlspath .. "'}})"
-			}, 'jdtls_lsp' )
+			}, 'grp_lsp_jdtls' )
 		end
 	end
 end)

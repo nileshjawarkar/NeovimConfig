@@ -1,5 +1,5 @@
 
-local util = require('util')
+local config = require('core.config')
 local opts = { noremap = true }
 
 --[[
@@ -33,4 +33,4 @@ vnoremap crm <Esc><Cmd>lua require('jdtls').extract_method(true)<CR>
     })
 ]]
 
-require('jdtls').start_or_attach({cmd = { util.get_ls_path('jdtls') .. '/start_jdtls.sh'}})
+require('jdtls').start_or_attach({cmd = { config.get_lsp_path('java') .. '/start_jdtls.sh'}})

@@ -1,5 +1,3 @@
-local M = {}
-
 local function init_dap()
 	local util = require('util')
 	local config = require('core.config')
@@ -88,7 +86,16 @@ local function init_dap()
 		}
 	})
 end
-M.init_dap = init_dap;
-return M
+
+local init_done = false
+if init_done == false then
+	init_done = true
+	init_dap()
+end
+
+local m = {
+	init_dap = init_dap
+}
+return m
 
 

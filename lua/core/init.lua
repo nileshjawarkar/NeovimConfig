@@ -1,7 +1,11 @@
-local util = require('util')
-require('core.config')
+-- Load default setting
 require('defaults')
+
+-- Load custom settings
+local util = require('util')
 util.loadModule('custom')
+
+-- Load plugins
 require('core.plugins')
 
 -- For theme
@@ -45,7 +49,5 @@ util.map_gkey({
 
 require('core.completion')
 require('core.telescope')
-
-local debugger = require('core.debugger')
-debugger.init_dap()
+require('core.debugger')
 

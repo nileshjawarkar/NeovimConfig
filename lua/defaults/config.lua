@@ -1,9 +1,7 @@
-local config = require('core.config')
-local util = require('util')
 local function init_config()
-	local home = util.get_userhome()
+	local config = require('core.config')
+	local util = require('util')
 	local vim_config = util.get_cfgpath()
-
 	local yarn_bin = vim_config .. '/yarn_lsp'
 	config.set_lsp_paths({
 		{"python", yarn_bin .. '/node_modules/pyright'},
@@ -22,5 +20,13 @@ local function init_config()
 	})
 end
 
-init_config()
-return init_config
+local init_done = false
+if init_done == false then
+	init_done = true
+	init_config()
+end
+
+local m = {
+	init_config = init_config
+}
+return m
