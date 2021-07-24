@@ -22,7 +22,11 @@ require('util').auto_cmds({
 return require('packer').startup(function(use)
     use {'wbthomason/packer.nvim'}
     use {'joshdick/onedark.vim'}
-    use {'itchyny/lightline.vim'}
+	use {
+		'hoob3rt/lualine.nvim',
+		requires = {'kyazdani42/nvim-web-devicons', opt = true}
+	}
+
     use {'preservim/nerdtree' }
 	use {'mhinz/vim-startify'}
 	use { 'vimwiki/vimwiki' }

@@ -27,7 +27,6 @@ local startifyop = vim.api.nvim_eval(
 )
 
 util.set_gvar({
-	lightline = { colorscheme = 'onedark' },
 	onedark_termcolors = 256,
 	-- For Startify
 	startify_lists = startifyop,
@@ -40,13 +39,14 @@ util.map_gkey({
 	-- For Startify
 	{ 'n', '<M-0>', ':Startify<CR>', kop },
 	-- For NERD Tree
-	{ 'n', '<c-n>', ':NERDTreeToggle<CR>', kop },
-    { 'n', '<c-f>', ':NERDTreeFind<CR>', kop },
+	{ 'n', '<M-t>', ':NERDTreeToggle<CR>', kop },
+    { 'n', '<M-f>', ':NERDTreeFind<CR>', kop },
 	-- For vimwiki
 	{ 'n', '<Leader>w', ':VimwikiIndex<CR>', kop },
     { 'n', '<Leader>wi', ':VimwikiDiaryIndex<CR>', kop }
 })
 
+require('core.statusline')
 require('core.completion')
 require('core.telescope')
 require('core.debugger')
